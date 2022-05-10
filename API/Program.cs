@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager config = builder.Configuration;
 builder.Services.AddDbContext<DataContext>(options=>options.UseSqlite(config.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers();
+builder.Services.AddCors();
 builder.Services.AddEndpointsApiExplorer();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 //builder.Services.AddSwaggerGen();
@@ -22,6 +23,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+
+app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
 
 app.UseAuthorization();
 
